@@ -46,7 +46,46 @@
           :required-evidence ["Schweißverfahrensprüfbericht (welding-procedure-qualification-report)"
                               "Prüfbericht zerstörungsfreie Prüfung (nde-inspection-report)"
                               "Schweißqualitäts-Rückverfolgbarkeitsnachweis (weld-quality-chain-of-custody-record)"
-                              "Werkstoffzertifikat (material-certification-record)"]}})
+                              "Werkstoffzertifikat (material-certification-record)"]}
+   ;; POL added 2026-07-23. Legal-basis layers, each independently fetched and
+   ;; read this session (English glosses below are ours, not the primary text):
+   ;;  - Rozporządzenie (UE) Nr 305/2011 (CPR) -- EU-wide harmonized-conditions
+   ;;    baseline for placing construction products on the market (EUR-Lex).
+   ;;  - Ustawa z dnia 16 kwietnia 2004 r. o wyrobach budowlanych (Dz.U. 2004
+   ;;    nr 92 poz. 881), amended by ustawa z dnia 13 czerwca 2013 r. (Dz.U.
+   ;;    2013 poz. 898) specifically "w celu dostosowania do rozporządzenia
+   ;;    Nr 305/2011" -- Poland's national implementing act: names Główny
+   ;;    Inspektor Nadzoru Budowlanego (GUNB) as the competent authority for
+   ;;    construction-product matters (art. 3) and gives CPR 305/2011 domestic
+   ;;    legal effect/enforcement machinery (art. 1). Distinct from the EU
+   ;;    regulation alone, per dziennikustaw.gov.pl PDFs read directly.
+   ;;  - Prawo budowlane art. 10 (consolidated text Dz.U. 2026 poz. 524, in
+   ;;    force as of legalStatusDate 2026-03-19, fetched via api.sejm.gov.pl):
+   ;;    conditions lawful use of a product in construction works on its
+   ;;    having been placed on the market "zgodnie z przepisami odrębnymi"
+   ;;    (i.e. per the wyroby budowlane act / CPR pathway above) -- the
+   ;;    building-law bridge distinct from the product-marketing rules.
+   ;; Gaps honestly left unstated rather than guessed: (1) PN-EN 1090-2's
+   ;; specific edition year -- PKN's wiedza.pkn.pl norm search is a JS-only
+   ;; form that returns no data over a plain fetch, so only the PN-EN 1090-1
+   ;; edition ("+A1:2012") was independently confirmed, via the certification
+   ;; body source below, not PKN's own catalog. (2) A specific EU notified-body
+   ;; registration number for FPC/ZKP certification -- not found in any source
+   ;; actually read. :owner-authority's named certification body is a verified
+   ;; example, not asserted to be exclusive. Separately: is.gliwice.pl (that
+   ;; body's live site) has an expired TLS certificate blocking a normal
+   ;; fetch (not bot-detection); its content was instead read via the Wayback
+   ;; Machine capture https://web.archive.org/web/20250208232848/https://is.gliwice.pl/
+   ;; per the fallback-source rule, and is cited as such below.
+   "POL" {:name "Poland"
+          :owner-authority "PKN (Polski Komitet Normalizacyjny) / Główny Inspektor Nadzoru Budowlanego (GUNB) / jednostka notyfikowana UE ds. ZKP wg PN-EN 1090-1 (zweryfikowany przykład: Łukasiewicz – Centrum Spawalnictwa, dawniej Instytut Spawalnictwa, Gliwice)"
+          :legal-basis "Rozporządzenie (UE) Nr 305/2011 (CPR) + PN-EN 1090-1+A1:2012 / PN-EN 1090-2 (wykonanie konstrukcji stalowych, referencja) + ustawa z dnia 16 kwietnia 2004 r. o wyrobach budowlanych (Dz.U. 2004 nr 92 poz. 881, dostosowana do rozporządzenia 305/2011 ustawą z dnia 13 czerwca 2013 r., Dz.U. 2013 poz. 898) + Prawo budowlane art. 10 (tekst jedn. Dz.U. 2026 poz. 524)"
+          :national-spec "Ocena zgodności zakładowej kontroli produkcji (ZKP) dla konstrukcji stalowych/aluminiowych wg PN-EN 1090-1, system 2+, klasy wykonania EXC1-EXC4; oznakowanie CE wg rozporządzenia 305/2011; dopuszczenie wyrobu do robót budowlanych wg art. 10 Prawa budowlanego"
+          :provenance "https://www.pkn.pl/"
+          :required-evidence ["protokół kwalifikowania technologii spawania WPQR (welding-procedure-qualification-report)"
+                              "sprawozdanie z badań nieniszczących (nde-inspection-report)"
+                              "zapis identyfikowalności jakości spawania (weld-quality-chain-of-custody-record)"
+                              "atest / świadectwo odbioru materiału (material-certification-record)"]}})
 
 (defn spec-basis [iso3] (get catalog iso3))
 
