@@ -6,6 +6,22 @@
   (is (some? (facts/spec-basis "JPN")))
   (is (string? (:provenance (facts/spec-basis "JPN")))))
 
+(deftest pol-has-a-spec-basis-with-the-same-shape-as-the-other-jurisdictions
+  (let [pol (facts/spec-basis "POL")]
+    (is (some? pol))
+    (is (= "Poland" (:name pol)))
+    (is (= (set (keys pol)) (set (keys (facts/spec-basis "JPN")))))
+    (is (string? (:owner-authority pol)))
+    (is (string? (:legal-basis pol)))
+    (is (string? (:national-spec pol)))
+    (is (string? (:provenance pol)))
+    (is (= 4 (count (:required-evidence pol))))))
+
+(deftest pol-required-evidence-is-satisfied-by-its-own-checklist
+  (let [all (facts/evidence-checklist "POL")]
+    (is (facts/required-evidence-satisfied? "POL" all))
+    (is (not (facts/required-evidence-satisfied? "POL" (rest all))))))
+
 (deftest unknown-jurisdiction-has-no-fabricated-spec-basis
   (is (nil? (facts/spec-basis "ATL"))))
 
