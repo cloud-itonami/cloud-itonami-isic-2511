@@ -129,8 +129,9 @@
       (str/replace "<" "&lt;")
       (str/replace ">" "&gt;")))
 
-(defn- kw [v]
+(defn- kw
   "Keyword -> string keeping the namespace (name alone drops it)."
+  [v]
   (cond
     (keyword? v) (if-let [n (namespace v)]
                    (str n "/" (name v))
