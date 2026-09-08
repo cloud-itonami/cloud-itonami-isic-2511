@@ -29,7 +29,7 @@
   is `structuralsteel.operation`'s `:actuation/dispatch-assembly`/
   `:actuation/issue-fabrication-certificate`, always human-gated --
   see README `Actuation`)."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- unsigned-certificate
   "Every certificate this actor produces is UNSIGNED -- signature is the
@@ -74,7 +74,7 @@
     (throw (ex-info "assembly-dispatch: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "assembly-dispatch: sequence must be >= 0" {})))
-  (let [dispatch-number (str (str/upper-case jurisdiction) "-ASM-" (zero-pad sequence 6))
+  (let [dispatch-number (str (str/upper jurisdiction) "-ASM-" (zero-pad sequence 6))
         record {"record_id" dispatch-number
                 "kind" "assembly-dispatch-draft"
                 "assembly_id" assembly-id
@@ -99,7 +99,7 @@
     (throw (ex-info "fabrication-certificate: jurisdiction required" {})))
   (when (< sequence 0)
     (throw (ex-info "fabrication-certificate: sequence must be >= 0" {})))
-  (let [evidence-number (str (str/upper-case jurisdiction) "-FAB-" (zero-pad sequence 6))
+  (let [evidence-number (str (str/upper jurisdiction) "-FAB-" (zero-pad sequence 6))
         record {"record_id" evidence-number
                 "kind" "fabrication-certificate-draft"
                 "assembly_id" assembly-id
