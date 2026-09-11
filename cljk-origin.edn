@@ -1,0 +1,22 @@
+{:format :kotoba.cljk-origin/v1
+ :renamed-on "2026-09-11"
+ :decision "adr-2609111500-cljk-rename-all-clojure-source (com-junkawasaki/root 90-docs/adr; owner instruction 2026-09-11)"
+ :rule "value = the extension the file had before the rename. A path ending in .clj.cljk or .cljs.cljk kept it in the name because both platform files existed (or the plain target was taken)."
+ :origins
+ {"src/structuralsteel/export.cljk" ".cljc"
+  "src/structuralsteel/export_run.cljk" ".clj"
+  "src/structuralsteel/facts.cljk" ".cljc"
+  "src/structuralsteel/governor.cljk" ".cljc"
+  "src/structuralsteel/operation.cljk" ".cljc"
+  "src/structuralsteel/phase.cljk" ".cljc"
+  "src/structuralsteel/registry.cljk" ".cljc"
+  "src/structuralsteel/render_html.cljk" ".clj"
+  "src/structuralsteel/sim.cljk" ".cljc"
+  "src/structuralsteel/store.cljk" ".cljc"
+  "src/structuralsteel/structuralsteeladvisor.cljk" ".cljc"
+  "test/structuralsteel/export_test.cljk" ".clj"
+  "test/structuralsteel/facts_test.cljk" ".clj"
+  "test/structuralsteel/governor_contract_test.cljk" ".clj"
+  "test/structuralsteel/phase_test.cljk" ".clj"
+  "test/structuralsteel/registry_test.cljk" ".clj"
+  "test/structuralsteel/store_contract_test.cljk" ".clj"}}
