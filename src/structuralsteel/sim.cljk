@@ -1,5 +1,5 @@
 (ns structuralsteel.sim
-  "Demo driver -- `clojure -M:dev:run`. Walks a clean assembly through
+  "Demo driver -- `kbb -M:dev:run`. Walks a clean assembly through
   intake -> welding-procedure requirements verification -> NDE-
   inspection screening -> assembly-dispatch proposal (always
   escalates) -> human approval -> commit, then through fabrication-
