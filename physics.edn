@@ -1,0 +1,44 @@
+;; What this vertical's robot physically does, declared for
+;; kotoba.robotics.process (kotoba-lang/robotics). `kbb -M:dev:physics` runs it.
+;;
+;; README "Robotics premise": robots do welding, fit-up and NDE scanning in
+;; a structural-steel fabrication shop (ISIC 2511) under an actor that
+;; proposes and the Structural Fabrication Governor that gates; dispatch
+;; and the fabrication certificate need human sign-off. Their physical
+;; work: preheating a thick flange through before welding, lifting
+;; stiffener plates into position for fit-up, and pulling the mill-cert
+;; check coupon of an incoming plate lot.
+;;
+;; Every number without a cited source is marked `estimate` in its :basis.
+;; Replacing an estimate with a sourced value is this bot's growth work.
+{:physics/schema "itonami.physical-ai.spec.v1"
+ :repo "cloud-itonami/cloud-itonami-isic-2511"
+ :cases
+ [{:id :flange-preheat
+   :kind :thermal
+   :procedure "induction pad holds one face of a column flange at 250 C; time until the far face (still air, 20 C shop) reaches the 100 C preheat before the welding robot may strike an arc"
+   :params {:thickness-m 0.04 :conductivity-w-mk 45.0 :density-kg-m3 7850.0 :specific-heat-j-kgk 480.0
+            :t0-c 20.0 :t-hot-c 250.0 :front-fixed? true :t-back-ambient-c 20.0 :h-back-w-m2k 10.0
+            :threshold-c 100.0 :duration-s 3600.0 :nodes 11}
+   :sweep {:param :thickness-m :values [0.02 0.04 0.06 0.08 0.10]}
+   :quantity :time-to-threshold-s
+   :limit {:max 600.0 :basis "estimate: preheat allowed 10 minutes per joint in the shop's welding takt"}
+   :boundary {:lo 0.01 :hi 0.20}}
+  {:id :stiffener-fit-up
+   :kind :manipulator
+   :procedure "fit-up arm lifts a stiffener plate from the kitting rack and holds it against the girder web for tack welding"
+   :params {:l1-m 0.80 :l2-m 0.70 :m1-kg 18.0 :m2-kg 12.0
+            :from [1.00 0.10] :to [0.50 0.90] :duration-s 3.0 :steps 500}
+   :sweep {:param :payload-kg :values [10.0 20.0 30.0 45.0 60.0]}
+   :quantity :peak-tau1-nm
+   :limit {:max 800.0 :basis "estimate: continuous shoulder torque of a ~60 kg-payload industrial arm class"}
+   :boundary {:lo 1.0 :hi 150.0}}
+  {:id :plate-lot-coupon
+   :kind :material
+   :procedure "QC robot pulls a 12 x 25 mm coupon (100 mm gauge) cut from an incoming SS400 plate lot to 110 kN; the 0.2 % offset yield force is judged; sweep = the lot's yield stress"
+   :params {:length-m 0.10 :area-m2 3.0e-4 :youngs-modulus-pa 205.0e9 :hardening-pa 1.0e9
+            :density-kg-m3 7850.0 :max-force-n 110000.0}
+   :sweep {:param :yield-stress-pa :values [225.0e6 235.0e6 245.0e6 260.0e6 290.0e6]}
+   :quantity :yield-force-n
+   :limit {:min 73500.0 :basis "JIS G 3101 SS400, thickness 16 mm or less: yield point >= 245 N/mm2 (245 x 300 mm2 = 73500 N)"}
+   :boundary {:lo 200.0e6 :hi 320.0e6}}]}
